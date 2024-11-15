@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sibers.Common\Sibers.Common.csproj" />
+    <ProjectReference Include="..\Sibers.Repositories.Contracts\Sibers.Repositories.Contracts.csproj" />
+    <ProjectReference Include="..\Sibers.Services.Contracts\Sibers.Services.Contracts.csproj" />
+    <ProjectReference Include="..\Sibers.Shared\Sibers.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
