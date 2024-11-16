@@ -12,21 +12,10 @@ namespace Sibers.Context.Configuration
             builder.ToTable("Employees");
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
-
-            builder
-               .HasMany(x => x.Projects)
-               .WithMany(x => x.Workers)
-               .UsingEntity(l => l.HasOne(typeof(Employee))
-                                  .WithMany()
-                                  .HasForeignKey("WorkersId")
-                                  .HasPrincipalKey(nameof(Employee.Id))
-                                  .OnDelete(DeleteBehavior.NoAction),
-                            r => r.HasOne(typeof(Project))
-                                  .WithMany()
-                                  .HasForeignKey("ProjectsId")
-                                  .HasPrincipalKey(nameof(Project.Id))
-                                  .OnDelete(DeleteBehavior.NoAction),
-                            j => j.HasKey("WorkersId", "ProjectsId"));
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Patronymic).HasMaxLength(50);
+            builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
 
             builder
                .HasMany(x => x.ProjectDirector)

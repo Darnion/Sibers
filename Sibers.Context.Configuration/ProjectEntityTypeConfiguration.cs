@@ -16,6 +16,22 @@ namespace Sibers.Context.Configuration
             builder.Property(x => x.DirectorId).IsRequired();
             builder.Property(x => x.Priority).IsRequired();
 
+            builder.HasMany(x => x.Workers)
+                   .WithMany(x => x.Projects)
+                   .UsingEntity(l => l
+                                      .HasOne(typeof(Project))
+                                      .WithMany()
+                                      .HasForeignKey("ProjectsId")
+                                      .HasPrincipalKey(nameof(Employee.Id))
+                                      .OnDelete(DeleteBehavior.NoAction),
+                                r => r
+                                      .HasOne(typeof(Employee))
+                                      .WithMany()
+                                      .HasForeignKey("WorkersId")
+                                      .HasPrincipalKey(nameof(Project.Id))
+                                      .OnDelete(DeleteBehavior.NoAction),
+                                j => j.HasKey("ProjectsId", "WorkersId"));
+
             builder.HasIndex(x => x.CreatedAt)
                 .HasDatabaseName($"IX_{nameof(Project)}_{nameof(Project.CreatedAt)}");
         }

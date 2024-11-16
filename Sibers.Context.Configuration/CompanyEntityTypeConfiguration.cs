@@ -11,17 +11,25 @@ namespace Sibers.Context.Configuration
             builder.ToTable("Companies");
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
+            builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
 
-            builder.
-                HasMany(x => x.ProjectCustomerCompany)
+            builder
+                .HasMany(x => x.ProjectCustomerCompany)
                 .WithOne(x => x.CustomerCompany)
                 .HasForeignKey(x => x.CustomerCompanyId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.
-                HasMany(x => x.ProjectContractorCompany)
+            builder
+                .HasMany(x => x.ProjectContractorCompany)
                 .WithOne(x => x.ContractorCompany)
-                .HasForeignKey(x => x.ContractorCompanyId);
+                .HasForeignKey(x => x.ContractorCompanyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasIndex(x => x.Title)
+                .IsUnique()
+                .HasFilter($"{nameof(Company.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(Company)}_{nameof(Company.Title)}");
         }
     }
 }

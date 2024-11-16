@@ -12,8 +12,8 @@ using Sibers.Context;
 namespace Sibers.Context.Migrations
 {
     [DbContext(typeof(SibersContext))]
-    [Migration("20241115094508_FixDB")]
-    partial class FixDB
+    [Migration("20241116132348_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,15 +27,15 @@ namespace Sibers.Context.Migrations
 
             modelBuilder.Entity("EmployeeProject", b =>
                 {
-                    b.Property<Guid>("WorkersId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ProjectsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("WorkersId", "ProjectsId");
+                    b.Property<Guid>("WorkersId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("ProjectsId");
+                    b.HasKey("ProjectsId", "WorkersId");
+
+                    b.HasIndex("WorkersId");
 
                     b.ToTable("EmployeeProject");
                 });
@@ -59,7 +59,8 @@ namespace Sibers.Context.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -70,6 +71,11 @@ namespace Sibers.Context.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Company_Title")
+                        .HasFilter("DeletedAt is null");
 
                     b.ToTable("Companies", (string)null);
                 });
@@ -92,21 +98,26 @@ namespace Sibers.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<int>("EmployeeType")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Patronymic")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -207,7 +218,7 @@ namespace Sibers.Context.Migrations
                     b.HasOne("Sibers.Context.Contracts.Models.Company", "ContractorCompany")
                         .WithMany("ProjectContractorCompany")
                         .HasForeignKey("ContractorCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Sibers.Context.Contracts.Models.Company", "CustomerCompany")

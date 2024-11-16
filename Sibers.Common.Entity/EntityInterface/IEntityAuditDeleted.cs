@@ -1,7 +1,7 @@
 ﻿namespace Sibers.Common.Entity.EntityInterface
 {
     /// <summary>
-    /// Аудит удаление сущности
+    /// Аудит удаления сущности
     /// </summary>
     public interface IEntityAuditDeleted
     {

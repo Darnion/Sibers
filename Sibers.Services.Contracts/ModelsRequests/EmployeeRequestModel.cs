@@ -35,7 +35,7 @@ namespace Sibers.Services.Contracts.ModelsRequest
         public string? Email { get; set; }
 
         /// <summary>
-        /// Сотрудники проекта (many-to-many)
+        /// Проекты, на которых <see cref="EmployeeRequestModel"/> - сотрудник
         /// </summary>
         public ICollection<Guid>? Projects { get; set; }
     }

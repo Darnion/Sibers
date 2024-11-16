@@ -16,7 +16,7 @@ namespace Sibers.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -34,10 +34,10 @@ namespace Sibers.Context.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EmployeeType = table.Column<int>(type: "int", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Patronymic = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -74,8 +74,7 @@ namespace Sibers.Context.Migrations
                         name: "FK_Projects_Companies_ContractorCompanyId",
                         column: x => x.ContractorCompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Projects_Companies_CustomerCompanyId",
                         column: x => x.CustomerCompanyId,
@@ -93,12 +92,12 @@ namespace Sibers.Context.Migrations
                 name: "EmployeeProject",
                 columns: table => new
                 {
-                    WorkersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeProject", x => new { x.WorkersId, x.ProjectsId });
+                    table.PrimaryKey("PK_EmployeeProject", x => new { x.ProjectsId, x.WorkersId });
                     table.ForeignKey(
                         name: "FK_EmployeeProject_Employees_WorkersId",
                         column: x => x.WorkersId,
@@ -112,9 +111,16 @@ namespace Sibers.Context.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeProject_ProjectsId",
+                name: "IX_Company_Title",
+                table: "Companies",
+                column: "Title",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeProject_WorkersId",
                 table: "EmployeeProject",
-                column: "ProjectsId");
+                column: "WorkersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employee_Email",

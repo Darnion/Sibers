@@ -15,18 +15,21 @@ namespace Sibers.Services.Implementations
         private readonly IEmployeeReadRepository employeeReadRepository;
         private readonly IEmployeeWriteRepository employeeWriteRepository;
         private readonly IProjectReadRepository projectReadRepository;
+        private readonly IProjectWriteRepository projectWriteRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public EmployeeService(IEmployeeReadRepository employeeReadRepository,
             IEmployeeWriteRepository employeeWriteRepository,
             IProjectReadRepository projectReadRepository,
+            IProjectWriteRepository projectWriteRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.employeeReadRepository = employeeReadRepository;
             this.employeeWriteRepository = employeeWriteRepository;
             this.projectReadRepository = projectReadRepository;
+            this.projectWriteRepository = projectWriteRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -85,11 +88,24 @@ namespace Sibers.Services.Implementations
             targetEmployee.Patronymic = source.Patronymic;
             targetEmployee.Email = source.Email;
 
-            if (source.Projects != null)
+            var empProjectsDict = await projectReadRepository.GetByIdsAsync(source.Projects!, cancellationToken);
+            var empProjects = empProjectsDict.Values;
+            //foreach(var project in targetEmployee.Projects!)
+            //{
+            //    if (!empProjects.Contains(project))
+            //    {
+            //        project.Workers!.Remove(targetEmployee);
+            //        projectWriteRepository.Update(project);
+            //    }
+            //}
+            targetEmployee.Projects = empProjects;
+            foreach (var project in targetEmployee.Projects)
             {
-                var empProjects = await projectReadRepository.GetByIdsAsync(source.Projects, cancellationToken);
-
-                targetEmployee.Projects = empProjects.Values;
+                if (!project.Workers!.Contains(targetEmployee))
+                {
+                    project.Workers!.Add(targetEmployee);
+                    projectWriteRepository.Update(project);
+                }
             }
 
             employeeWriteRepository.Update(targetEmployee);

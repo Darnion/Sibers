@@ -16,7 +16,8 @@ namespace Sibers.Services.Automappers
                 .ReverseMap();
 
             CreateMap<Employee, EmployeeModel>(MemberList.Destination)
-                .ForMember(x => x.Projects, next => next.Ignore());
+                //.ForMember(x => x.Projects, next => next.Ignore())
+                ;
 
             CreateMap<Company, CompanyModel>(MemberList.Destination);
 

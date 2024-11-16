@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sibers.Context;
 
@@ -11,9 +12,11 @@ using Sibers.Context;
 namespace Sibers.Context.Migrations
 {
     [DbContext(typeof(SibersContext))]
-    partial class SibersContextModelSnapshot : ModelSnapshot
+    [Migration("20241116140726_ProjCascade")]
+    partial class ProjCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,7 +203,7 @@ namespace Sibers.Context.Migrations
                     b.HasOne("Sibers.Context.Contracts.Models.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Sibers.Context.Contracts.Models.Employee", null)

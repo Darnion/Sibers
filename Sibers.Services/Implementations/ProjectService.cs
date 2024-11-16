@@ -16,6 +16,7 @@ namespace Sibers.Services.Implementations
         private readonly IProjectWriteRepository projectWriteRepository;
         private readonly ICompanyReadRepository companyReadRepository;
         private readonly IEmployeeReadRepository employeeReadRepository;
+        private readonly IEmployeeWriteRepository employeeWriteRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
@@ -23,6 +24,7 @@ namespace Sibers.Services.Implementations
             IProjectWriteRepository projectWriteRepository,
             ICompanyReadRepository companyReadRepository,
             IEmployeeReadRepository employeeReadRepository,
+            IEmployeeWriteRepository employeeWriteRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
@@ -30,6 +32,7 @@ namespace Sibers.Services.Implementations
             this.projectWriteRepository = projectWriteRepository;
             this.companyReadRepository = companyReadRepository;
             this.employeeReadRepository = employeeReadRepository;
+            this.employeeWriteRepository = employeeWriteRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -114,11 +117,25 @@ namespace Sibers.Services.Implementations
             targetProject.EndDate = source.EndDate;
             targetProject.Priority = source.Priority;
 
-            if (source.Workers != null)
+            
+            var projWorkersDict = await employeeReadRepository.GetByIdsAsync(source.Workers!, cancellationToken);
+            var projWorkers = projWorkersDict.Values;
+            foreach (var worker in targetProject.Workers!)
             {
-                var projWorkers = await employeeReadRepository.GetByIdsAsync(source.Workers, cancellationToken);
-
-                targetProject.Workers = projWorkers.Values;
+                if (!projWorkers.Contains(worker))
+                {
+                    worker.Projects!.Remove(targetProject);
+                    employeeWriteRepository.Update(worker);
+                };
+            }
+            targetProject.Workers = projWorkers;
+            foreach(var worker in targetProject.Workers)
+            {
+                if (!worker.Projects!.Contains(targetProject))
+                {
+                    worker.Projects!.Add(targetProject);
+                    employeeWriteRepository.Update(worker);
+                }
             }
 
             projectWriteRepository.Update(targetProject);
