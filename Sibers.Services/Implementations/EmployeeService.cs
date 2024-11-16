@@ -90,18 +90,18 @@ namespace Sibers.Services.Implementations
 
             var empProjectsDict = await projectReadRepository.GetByIdsAsync(source.Projects!, cancellationToken);
             var empProjects = empProjectsDict.Values;
-            //foreach(var project in targetEmployee.Projects!)
-            //{
-            //    if (!empProjects.Contains(project))
-            //    {
-            //        project.Workers!.Remove(targetEmployee);
-            //        projectWriteRepository.Update(project);
-            //    }
-            //}
-            targetEmployee.Projects = empProjects;
-            foreach (var project in targetEmployee.Projects)
+            foreach (var project in targetEmployee.Projects!)
             {
-                if (!project.Workers!.Contains(targetEmployee))
+                if (!empProjects.Contains(project))
+                {
+                    project.Workers!.Remove(targetEmployee);
+                    projectWriteRepository.Update(project);
+                }
+            }
+            targetEmployee.Projects = empProjects;
+            foreach (var project in targetEmployee.Projects!)
+            {
+                if (!project.Workers!.Select(x => x.Id).Contains(targetEmployee.Id))
                 {
                     project.Workers!.Add(targetEmployee);
                     projectWriteRepository.Update(project);
