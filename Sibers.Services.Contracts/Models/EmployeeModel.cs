@@ -39,6 +39,6 @@ namespace Sibers.Services.Contracts.Models
         /// <summary>
         /// <inheritdoc cref="ProjectModel"/>
         /// </summary>
-        public ICollection<ProjectModel>? Projects { get; set; }
+        public ICollection<ProjectModel> Projects { get; set; } = new HashSet<ProjectModel>();
     }
 }

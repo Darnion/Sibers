@@ -29,7 +29,7 @@ namespace Sibers.Services.Contracts.ModelsRequest
         /// <summary>
         /// Сотрудники (many-to-many)
         /// </summary>
-        public ICollection<Guid>? Workers { get; set; }
+        public ICollection<Guid> Workers { get; set; } = new HashSet<Guid>();
 
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>

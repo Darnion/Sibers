@@ -3,6 +3,7 @@ using Sibers.Common.Entity.Repositories;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Sibers.Repositories.Implementations
 {
@@ -18,11 +19,13 @@ namespace Sibers.Repositories.Implementations
 
         Task<IReadOnlyCollection<Project>> IProjectReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Project>()
-                .NotDeletedAt()
-                .Include(x => x.Director)
-                .Include(x => x.Workers)
-                .OrderBy(x => x.Title)
-                .ToReadOnlyCollectionAsync(cancellationToken);
+                    .NotDeletedAt()
+                    .Include(x => x.Director)
+                    .Include(x => x.Workers)
+                    .ThenInclude(x => x.Worker)
+                    .OrderBy(x => x.Title)
+                    .ToReadOnlyCollectionAsync(cancellationToken);
+        
 
         Task<Project?> IProjectReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Project>()

@@ -6,6 +6,7 @@ using Sibers.Api.ModelsRequest.Project;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.ModelsRequest;
 using Microsoft.AspNetCore.Mvc;
+using Azure.Core;
 
 namespace Sibers.Api.Controllers
 {
@@ -18,19 +19,19 @@ namespace Sibers.Api.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService projectService;
-        //private readonly IApiValidatorService validatorService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="ProjectController"/>
         /// </summary>
         public ProjectController(IProjectService projectService,
-            IMapper mapper)
-        //IApiValidatorService validatorService)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.projectService = projectService;
             this.mapper = mapper;
-            //this.validatorService = validatorService;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Create(CreateProjectRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var projectRequestModel = mapper.Map<ProjectRequestModel>(request);
             var result = await projectService.AddAsync(projectRequestModel, cancellationToken);
@@ -80,11 +81,39 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(ProjectRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var model = mapper.Map<ProjectRequestModel>(request);
             var result = await projectService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<ProjectResponse>(result));
+        }
+
+        /// <summary>
+        /// Добавляет связи проекта с работниками
+        /// </summary>
+        [HttpPatch("link")]
+        [ApiOk(typeof(ProjectResponse))]
+        public async Task<IActionResult> LinkWorkers(EmployeeProjectRequest request, CancellationToken cancellationToken)
+        {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
+            var model = mapper.Map< EmployeeProjectRequestModel>(request);
+            await projectService.LinkWorkersAsync(model, cancellationToken);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Удаляет связи проекта с работниками
+        /// </summary>
+        [HttpPatch("unlink")]
+        [ApiOk(typeof(ProjectResponse))]
+        public async Task<IActionResult> UnlinkWorkers(EmployeeProjectRequest request, CancellationToken cancellationToken)
+        {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
+            var model = mapper.Map<EmployeeProjectRequestModel>(request);
+            await projectService.UnlinkWorkersAsync(model, cancellationToken);
+            return Ok();
         }
 
         /// <summary>

@@ -18,19 +18,19 @@ namespace Sibers.Api.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService companyService;
-        //private readonly IApiValidatorService validatorService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="CompanyController"/>
         /// </summary>
         public CompanyController(ICompanyService companyService,
-            IMapper mapper)
-        //IApiValidatorService validatorService)
+            IMapper mapper,
+        IApiValidatorService validatorService)
         {
             this.companyService = companyService;
             this.mapper = mapper;
-            //this.validatorService = validatorService;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Create(CreateCompanyRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var companyRequestModel = mapper.Map<CompanyRequestModel>(request);
             var result = await companyService.AddAsync(companyRequestModel, cancellationToken);
@@ -80,7 +80,7 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(CompanyRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var model = mapper.Map<CompanyRequestModel>(request);
             var result = await companyService.EditAsync(model, cancellationToken);

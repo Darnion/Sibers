@@ -22,21 +22,6 @@ namespace Sibers.Context.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EmployeeProject", b =>
-                {
-                    b.Property<Guid>("ProjectsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("WorkersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ProjectsId", "WorkersId");
-
-                    b.HasIndex("WorkersId");
-
-                    b.ToTable("EmployeeProject");
-                });
-
             modelBuilder.Entity("Sibers.Context.Contracts.Models.Company", b =>
                 {
                     b.Property<Guid>("Id")
@@ -134,6 +119,49 @@ namespace Sibers.Context.Migrations
                     b.ToTable("Employees", (string)null);
                 });
 
+            modelBuilder.Entity("Sibers.Context.Contracts.Models.EmployeeProject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("WorkerId", "ProjectId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_EmployeeProject_WorkerId_ProjectId")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("EmployeeProjects", (string)null);
+                });
+
             modelBuilder.Entity("Sibers.Context.Contracts.Models.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -195,19 +223,23 @@ namespace Sibers.Context.Migrations
                     b.ToTable("Projects", (string)null);
                 });
 
-            modelBuilder.Entity("EmployeeProject", b =>
+            modelBuilder.Entity("Sibers.Context.Contracts.Models.EmployeeProject", b =>
                 {
-                    b.HasOne("Sibers.Context.Contracts.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
+                    b.HasOne("Sibers.Context.Contracts.Models.Project", "Project")
+                        .WithMany("Workers")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Sibers.Context.Contracts.Models.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("WorkersId")
+                    b.HasOne("Sibers.Context.Contracts.Models.Employee", "Worker")
+                        .WithMany("Projects")
+                        .HasForeignKey("WorkerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Worker");
                 });
 
             modelBuilder.Entity("Sibers.Context.Contracts.Models.Project", b =>
@@ -247,6 +279,13 @@ namespace Sibers.Context.Migrations
             modelBuilder.Entity("Sibers.Context.Contracts.Models.Employee", b =>
                 {
                     b.Navigation("ProjectDirector");
+
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Sibers.Context.Contracts.Models.Project", b =>
+                {
+                    b.Navigation("Workers");
                 });
 #pragma warning restore 612, 618
         }

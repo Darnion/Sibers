@@ -26,5 +26,10 @@ namespace Sibers.Repositories.Contracts
         /// Узнать существует ли <see cref="Company"/> с таким ид
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Узнать существует ли <see cref="Company"/> с таким названием
+        /// </summary>
+        Task<bool> AnyOtherByTitleAsync(Guid id, string title, CancellationToken cancellationToken);
     }
 }

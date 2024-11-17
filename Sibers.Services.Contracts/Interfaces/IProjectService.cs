@@ -21,9 +21,19 @@ namespace Sibers.Services.Contracts.Interfaces
         Task<ProjectModel> AddAsync(ProjectRequestModel request, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Редактировать существующйи проект
+        /// Редактировать существующий проект
         /// </summary>
         Task<ProjectModel> EditAsync(ProjectRequestModel source, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Привязать работников к проекту
+        /// </summary>
+        Task LinkWorkersAsync(EmployeeProjectRequestModel source, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Отвязать работников от проекта
+        /// </summary>
+        Task UnlinkWorkersAsync(EmployeeProjectRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удалить существующий проект

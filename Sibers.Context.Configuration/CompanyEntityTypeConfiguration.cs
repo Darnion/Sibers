@@ -11,22 +11,22 @@ namespace Sibers.Context.Configuration
             builder.ToTable("Companies");
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
-            builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
+            builder.Property(c => c.Title).IsRequired().HasMaxLength(200);
 
             builder
-                .HasMany(x => x.ProjectCustomerCompany)
-                .WithOne(x => x.CustomerCompany)
-                .HasForeignKey(x => x.CustomerCompanyId)
+                .HasMany(c => c.ProjectCustomerCompany)
+                .WithOne(p => p.CustomerCompany)
+                .HasForeignKey(p => p.CustomerCompanyId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasMany(x => x.ProjectContractorCompany)
-                .WithOne(x => x.ContractorCompany)
-                .HasForeignKey(x => x.ContractorCompanyId)
+                .HasMany(c => c.ProjectContractorCompany)
+                .WithOne(p => p.ContractorCompany)
+                .HasForeignKey(p => p.ContractorCompanyId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasIndex(x => x.Title)
+                .HasIndex(c => c.Title)
                 .IsUnique()
                 .HasFilter($"{nameof(Company.DeletedAt)} is null")
                 .HasDatabaseName($"IX_{nameof(Company)}_{nameof(Company.Title)}");

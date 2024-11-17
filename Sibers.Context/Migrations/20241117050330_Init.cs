@@ -89,23 +89,29 @@ namespace Sibers.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeProject",
+                name: "EmployeeProjects",
                 columns: table => new
                 {
-                    ProjectsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeProject", x => new { x.ProjectsId, x.WorkersId });
+                    table.PrimaryKey("PK_EmployeeProjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeProject_Employees_WorkersId",
-                        column: x => x.WorkersId,
+                        name: "FK_EmployeeProjects_Employees_WorkerId",
+                        column: x => x.WorkerId,
                         principalTable: "Employees",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EmployeeProject_Projects_ProjectsId",
-                        column: x => x.ProjectsId,
+                        name: "FK_EmployeeProjects_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id");
                 });
@@ -118,9 +124,16 @@ namespace Sibers.Context.Migrations
                 filter: "DeletedAt is null");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeProject_WorkersId",
-                table: "EmployeeProject",
-                column: "WorkersId");
+                name: "IX_EmployeeProject_WorkerId_ProjectId",
+                table: "EmployeeProjects",
+                columns: new[] { "WorkerId", "ProjectId" },
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeProjects_ProjectId",
+                table: "EmployeeProjects",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employee_Email",
@@ -154,7 +167,7 @@ namespace Sibers.Context.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployeeProject");
+                name: "EmployeeProjects");
 
             migrationBuilder.DropTable(
                 name: "Projects");

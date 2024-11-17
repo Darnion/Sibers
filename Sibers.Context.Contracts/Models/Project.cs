@@ -37,7 +37,7 @@ namespace Sibers.Context.Contracts.Models
         /// <summary>
         /// Сотрудники (many-to-many)
         /// </summary>
-        public ICollection<Employee>? Workers { get; set; }
+        public ICollection<EmployeeProject> Workers { get; set; } = new HashSet<EmployeeProject>();
 
         /// <summary>
         /// Идентификатор руководителя

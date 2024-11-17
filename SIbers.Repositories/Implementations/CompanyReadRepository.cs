@@ -39,5 +39,10 @@ namespace Sibers.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<bool> ICompanyReadRepository.AnyOtherByTitleAsync(Guid id, string title, CancellationToken cancellationToken)
+            => reader.Read<Company>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Id != id && x.Title == title, cancellationToken);
     }
 }

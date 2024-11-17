@@ -37,6 +37,6 @@ namespace Sibers.Services.Contracts.ModelsRequest
         /// <summary>
         /// Проекты, на которых <see cref="EmployeeRequestModel"/> - сотрудник
         /// </summary>
-        public ICollection<Guid>? Projects { get; set; }
+        public ICollection<Guid> Projects { get; set; } = new HashSet<Guid>();
     }
 }

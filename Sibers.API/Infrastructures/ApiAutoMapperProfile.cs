@@ -44,6 +44,7 @@ namespace Sibers.Api.Infrastructures
                            opt => opt.MapFrom(pm => pm.Director != null
                                                    ? $"{pm.Director.LastName} {pm.Director.FirstName} {pm.Director.Patronymic ?? string.Empty}".Trim()
                                                    : string.Empty));
+            CreateMap<EmployeeProjectRequest, EmployeeProjectRequestModel>(MemberList.Destination);
 
             CreateMap<EmployeeModel, CreateEmployeeRequest>(MemberList.Destination).ReverseMap();
             CreateMap<EmployeeModel, EmployeeRequest>(MemberList.Destination).ReverseMap();

@@ -12,10 +12,5 @@ namespace Sibers.Api.ModelsRequest.Project
         /// Идентификатор
         /// </summary>
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// Сотрудники <see cref="ProjectRequest"/>
-        /// </summary>
-        public ICollection<Guid>? Workers { get; set; }
     }
 }

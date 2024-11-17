@@ -26,5 +26,10 @@ namespace Sibers.Repositories.Contracts
         /// Узнать существует ли <see cref="Employee"/> с таким ид
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Узнать существует ли <see cref="Employee"/> с таким email
+        /// </summary>
+        Task<bool> AnyOtherByEmailAsync(Guid id, string email, CancellationToken cancellationToken);
     }
 }
