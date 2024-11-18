@@ -1,7 +1,4 @@
-﻿using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models.Enums;
-
-namespace Sibers.Services.Contracts.Models
+﻿namespace Sibers.Services.Contracts.Models
 {
     /// <summary>
     /// Модель "Проект"

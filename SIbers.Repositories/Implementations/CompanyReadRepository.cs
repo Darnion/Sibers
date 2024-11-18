@@ -1,8 +1,8 @@
-﻿using Sibers.Common.Entity.InterfaceDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Common.Entity.Repositories;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore;
 
 namespace Sibers.Repositories.Implementations
 {
@@ -26,6 +26,12 @@ namespace Sibers.Repositories.Implementations
             => reader.Read<Company>()
                 .NotDeletedAt()
                 .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+        Task<Company?> ICompanyReadRepository.GetByTitleAsync(string title, CancellationToken cancellationToken)
+            => reader.Read<Company>()
+                .NotDeletedAt()
+                .Where(x => x.Title == title)
                 .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Company>> ICompanyReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)

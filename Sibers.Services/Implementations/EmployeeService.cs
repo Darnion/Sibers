@@ -2,7 +2,6 @@
 using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Sibers.Services;
 using Sibers.Services.Contracts.Exceptions;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.Models;
@@ -38,7 +37,24 @@ namespace Sibers.Services.Implementations
         {
             var employees = await employeeReadRepository.GetAllAsync(cancellationToken);
             var result = new List<EmployeeModel>();
-            
+
+            foreach (var employee in employees)
+            {
+                var empl = mapper.Map<EmployeeModel>(employee);
+
+                empl.Projects = mapper.Map<ICollection<ProjectModel>>(employee.Projects.Where(x => x.DeletedAt == null).Select(x => x.Project));
+
+                result.Add(empl);
+            }
+
+            return result;
+        }
+
+        async Task<IEnumerable<EmployeeModel>> IEmployeeService.GetAllByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            var employees = await employeeReadRepository.GetAllByNameAsync(name, cancellationToken);
+            var result = new List<EmployeeModel>();
+
             foreach (var employee in employees)
             {
                 var empl = mapper.Map<EmployeeModel>(employee);
@@ -105,11 +121,11 @@ namespace Sibers.Services.Implementations
             }
 
             var empProjs = await employeeProjectReadRepository.GetByWorkerIdAsync(id, cancellationToken);
-            foreach(var empProj in empProjs)
+            foreach (var empProj in empProjs)
             {
                 employeeProjectWriteRepository.Delete(empProj);
             }
-            
+
             employeeWriteRepository.Delete(targetEmployee);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }

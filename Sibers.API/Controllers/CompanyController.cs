@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Sibers.Api.Attribute;
 using Sibers.Api.Infrastructures.Validator;
 using Sibers.Api.Models;
 using Sibers.Api.ModelsRequest.Company;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.ModelsRequest;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Sibers.Api.Controllers
 {
@@ -53,6 +53,19 @@ namespace Sibers.Api.Controllers
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await companyService.GetByIdAsync(id, cancellationToken);
+
+            return Ok(mapper.Map<CompanyResponse>(item));
+        }
+
+        /// <summary>
+        /// Получает компанию по названию
+        /// </summary>
+        [HttpGet("{title}")]
+        [ApiOk(typeof(CompanyResponse))]
+        [ApiNotFound]
+        public async Task<IActionResult> GetByTitle(string title, CancellationToken cancellationToken)
+        {
+            var item = await companyService.GetByTitleAsync(title, cancellationToken);
 
             return Ok(mapper.Map<CompanyResponse>(item));
         }

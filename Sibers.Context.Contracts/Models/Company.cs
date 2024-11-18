@@ -1,8 +1,4 @@
-﻿using Sibers.Context.Contracts.Enums;
-using Sibers.Context.Contracts.Models;
-using System;
-
-namespace Sibers.Context.Contracts.Models
+﻿namespace Sibers.Context.Contracts.Models
 {
     /// <summary>
     /// Сущность компании

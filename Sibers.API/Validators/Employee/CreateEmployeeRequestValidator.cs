@@ -1,6 +1,6 @@
-﻿using Sibers.Api.ModelsRequest.Employee;
+﻿using FluentValidation;
+using Sibers.Api.ModelsRequest.Employee;
 using Sibers.Repositories.Contracts;
-using FluentValidation;
 
 namespace Sibers.Api.Validators.Employee
 {

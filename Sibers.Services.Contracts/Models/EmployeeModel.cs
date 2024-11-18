@@ -1,5 +1,4 @@
-﻿using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models.Enums;
+﻿using Sibers.Services.Contracts.Models.Enums;
 
 namespace Sibers.Services.Contracts.Models
 {

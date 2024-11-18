@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Sibers.Api.Attribute;
 using Sibers.Api.Infrastructures.Validator;
 using Sibers.Api.Models;
 using Sibers.Api.ModelsRequest.Project;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.ModelsRequest;
-using Microsoft.AspNetCore.Mvc;
-using Azure.Core;
 
 namespace Sibers.Api.Controllers
 {
@@ -97,7 +96,7 @@ namespace Sibers.Api.Controllers
         {
             await validatorService.ValidateAsync(request, cancellationToken);
 
-            var model = mapper.Map< EmployeeProjectRequestModel>(request);
+            var model = mapper.Map<EmployeeProjectRequestModel>(request);
             await projectService.LinkWorkersAsync(model, cancellationToken);
             return Ok();
         }

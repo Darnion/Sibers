@@ -2,12 +2,10 @@
 using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Sibers.Services;
 using Sibers.Services.Contracts.Exceptions;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.Models;
 using Sibers.Services.Contracts.ModelsRequest;
-using System.Xml.Schema;
 
 namespace Sibers.Services.Implementations
 {
@@ -137,11 +135,12 @@ namespace Sibers.Services.Implementations
             foreach (var workerId in source.WorkersIds)
             {
                 if (targetProject.Workers.Where(x => x.DeletedAt == null).Any(tp => tp.WorkerId == workerId))
-                { 
-                    continue; 
+                {
+                    continue;
                 }
 
-                var employeeProject = new EmployeeProject() { 
+                var employeeProject = new EmployeeProject()
+                {
                     WorkerId = workerId,
                     ProjectId = source.ProjectId,
                 };
@@ -178,7 +177,7 @@ namespace Sibers.Services.Implementations
             var targetProject = await projectReadRepository.GetByIdAsync(id, cancellationToken);
             if (targetProject == null)
             {
-               throw new SibersEntityNotFoundException<Project>(id);
+                throw new SibersEntityNotFoundException<Project>(id);
             }
 
             var empProjs = await employeeProjectReadRepository.GetByProjectIdAsync(id, cancellationToken);

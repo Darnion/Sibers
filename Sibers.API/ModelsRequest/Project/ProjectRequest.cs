@@ -1,7 +1,4 @@
-﻿using Sibers.Api.Models.Enums;
-using Sibers.Api.ModelsRequest.Employee;
-
-namespace Sibers.Api.ModelsRequest.Project
+﻿namespace Sibers.Api.ModelsRequest.Project
 {
     /// <summary>
     /// Запрос изменения проекта

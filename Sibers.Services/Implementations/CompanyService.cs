@@ -2,7 +2,6 @@
 using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Sibers.Services;
 using Sibers.Services.Contracts.Exceptions;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.Models;
@@ -48,6 +47,17 @@ namespace Sibers.Services.Implementations
             if (item == null)
             {
                 throw new SibersEntityNotFoundException<Company>(id);
+            }
+            var company = mapper.Map<CompanyModel>(item);
+            return company;
+        }
+
+        async Task<CompanyModel?> ICompanyService.GetByTitleAsync(string title, CancellationToken cancellationToken)
+        {
+            var item = await companyReadRepository.GetByTitleAsync(title, cancellationToken);
+            if (item == null)
+            {
+                throw new SibersNotFoundException($"Компания с названием {title} не найдена.");
             }
             var company = mapper.Map<CompanyModel>(item);
             return company;

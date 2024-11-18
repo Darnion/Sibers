@@ -1,9 +1,8 @@
-﻿using Sibers.Common.Entity.InterfaceDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Common.Entity.Repositories;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace Sibers.Repositories.Implementations
 {

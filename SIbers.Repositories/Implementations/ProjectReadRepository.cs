@@ -1,9 +1,8 @@
-﻿using Sibers.Common.Entity.InterfaceDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Common.Entity.Repositories;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Sibers.Repositories.Implementations
 {
@@ -25,7 +24,7 @@ namespace Sibers.Repositories.Implementations
                     .ThenInclude(x => x.Worker)
                     .OrderBy(x => x.Title)
                     .ToReadOnlyCollectionAsync(cancellationToken);
-        
+
 
         Task<Project?> IProjectReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Project>()

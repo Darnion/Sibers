@@ -13,6 +13,11 @@ namespace Sibers.Repositories.Contracts
         Task<IReadOnlyCollection<Employee>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить список всех <see cref="Employee"/>, полное имя которых содержит строку
+        /// </summary>
+        Task<IReadOnlyCollection<Employee>> GetAllByNameAsync(string name, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить <see cref="Employee"/> по идентификатору
         /// </summary>
         Task<Employee?> GetByIdAsync(Guid id, CancellationToken cancellationToken);

@@ -1,8 +1,4 @@
-﻿using Sibers.Api.Models;
-using Sibers.Api.Models.Enums;
-using Sibers.Services.Contracts.Models;
-
-namespace Sibers.Api.ModelsRequest.Company
+﻿namespace Sibers.Api.ModelsRequest.Company
 {
     /// <summary>
     /// Запрос создания компании

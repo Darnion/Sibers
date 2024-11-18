@@ -2,13 +2,12 @@
 using AutoMapper.Extensions.EnumMapping;
 using Sibers.Api.Models;
 using Sibers.Api.Models.Enums;
+using Sibers.Api.ModelsRequest.Company;
 using Sibers.Api.ModelsRequest.Employee;
+using Sibers.Api.ModelsRequest.Project;
 using Sibers.Services.Contracts.Models;
 using Sibers.Services.Contracts.Models.Enums;
 using Sibers.Services.Contracts.ModelsRequest;
-using Sibers.Api.ModelsRequest.Project;
-using Sibers.Api.ModelsRequest.Company;
-using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Api.Infrastructures
 {
@@ -34,7 +33,7 @@ namespace Sibers.Api.Infrastructures
             CreateMap<ProjectModel, ProjectResponse>(MemberList.Destination)
                 .ForMember(pr => pr.ContractorCompanyTitle,
                            opt => opt.MapFrom(pm => pm.ContractorCompany != null
-                                                   ? pm.ContractorCompany.Title 
+                                                   ? pm.ContractorCompany.Title
                                                    : string.Empty))
                 .ForMember(pr => pr.CustomerCompanyTitle,
                            opt => opt.MapFrom(pm => pm.CustomerCompany != null

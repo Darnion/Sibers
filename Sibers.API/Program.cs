@@ -1,8 +1,21 @@
-using Sibers.Context;
 using Microsoft.EntityFrameworkCore;
 using Sibers.Api.Infrastructures;
+using Sibers.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+var myAllowSpecificOrigins = "_MyAllowSubdomainPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+       policy =>
+       {
+           policy
+                  .AllowAnyOrigin()
+                  .SetIsOriginAllowedToAllowWildcardSubdomains()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+       });
+});
 
 builder.Services.AddControllers(x =>
 {
@@ -29,6 +42,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors(myAllowSpecificOrigins);
 app.Run();
 
+/// <summary>
+/// 
+/// </summary>
 public partial class Program { }

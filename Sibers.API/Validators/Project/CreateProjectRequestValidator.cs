@@ -1,11 +1,12 @@
-﻿using Sibers.Api.ModelsRequest.Project;
+﻿using FluentValidation;
+using Sibers.Api.ModelsRequest.Project;
 using Sibers.Repositories.Contracts;
-using FluentValidation;
 
 namespace Sibers.Api.Validators.Project
 {
     /// <summary>
     /// Валидатор запроса создания проекта
+    /// </summary>
     public class CreateProjectRequestValidator : AbstractValidator<CreateProjectRequest>
     {
         /// <summary>

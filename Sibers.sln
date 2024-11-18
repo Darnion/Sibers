@@ -13,17 +13,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIbers.Repositories", "SIbe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Repositories.Contracts", "Sibers.Repositories.Contracts\Sibers.Repositories.Contracts.csproj", "{3AC9168D-6B0C-455C-B75D-1EC097FBEC03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.API", "Sibers.API\Sibers.API.csproj", "{A9544169-EA40-4AA1-A0EB-1002ADEB2182}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.API", "Sibers.API\Sibers.API.csproj", "{A9544169-EA40-4AA1-A0EB-1002ADEB2182}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Services", "Sibers.Services\Sibers.Services.csproj", "{2F335BEF-6F04-4B59-A0D0-A8FA010069F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Services", "Sibers.Services\Sibers.Services.csproj", "{2F335BEF-6F04-4B59-A0D0-A8FA010069F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Services.Contracts", "Sibers.Services.Contracts\Sibers.Services.Contracts.csproj", "{23CC9296-AB28-451C-92C5-515D37945DC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Services.Contracts", "Sibers.Services.Contracts\Sibers.Services.Contracts.csproj", "{23CC9296-AB28-451C-92C5-515D37945DC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Shared", "Sibers.Shared\Sibers.Shared.csproj", "{AC8B7F5A-651B-435A-9D76-F6FD81FAE032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Shared", "Sibers.Shared\Sibers.Shared.csproj", "{AC8B7F5A-651B-435A-9D76-F6FD81FAE032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Common", "Sibers.Common\Sibers.Common.csproj", "{B489C738-63EB-4985-9F27-69462FD7A41E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Common", "Sibers.Common\Sibers.Common.csproj", "{B489C738-63EB-4985-9F27-69462FD7A41E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Common.Entity", "Sibers.Common.Entity\Sibers.Common.Entity.csproj", "{E0FC1B69-79D0-4E5B-9E70-B8195C3D5738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.Common.Entity", "Sibers.Common.Entity\Sibers.Common.Entity.csproj", "{E0FC1B69-79D0-4E5B-9E70-B8195C3D5738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Services.Tests", "Sibers.Services.Tests\Sibers.Services.Tests.csproj", "{123EF36A-1424-4718-8887-55F64266C2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.Context.Tests", "Sibers.Context.Tests\Sibers.Context.Tests.csproj", "{00989576-0675-4A6C-92FC-81CBFB428E8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{E0FC1B69-79D0-4E5B-9E70-B8195C3D5738}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0FC1B69-79D0-4E5B-9E70-B8195C3D5738}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0FC1B69-79D0-4E5B-9E70-B8195C3D5738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123EF36A-1424-4718-8887-55F64266C2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123EF36A-1424-4718-8887-55F64266C2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123EF36A-1424-4718-8887-55F64266C2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123EF36A-1424-4718-8887-55F64266C2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00989576-0675-4A6C-92FC-81CBFB428E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00989576-0675-4A6C-92FC-81CBFB428E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00989576-0675-4A6C-92FC-81CBFB428E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00989576-0675-4A6C-92FC-81CBFB428E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

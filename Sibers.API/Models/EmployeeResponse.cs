@@ -1,5 +1,4 @@
 ﻿using Sibers.Api.Models.Enums;
-using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Api.Models
 {

@@ -1,12 +1,11 @@
-﻿using Sibers.Api.Validators.Employee;
-using Sibers.Api.Validators.Project;
+﻿using FluentValidation;
 using Sibers.Api.Validators.Company;
+using Sibers.Api.Validators.Employee;
+using Sibers.Api.Validators.EmployeeProject;
+using Sibers.Api.Validators.Project;
 using Sibers.Repositories.Contracts;
 using Sibers.Services.Contracts.Exceptions;
 using Sibers.Shared;
-using FluentValidation;
-using Sibers.Api.Infrastructures.Validator;
-using Sibers.Api.Validators.EmployeeProject;
 
 namespace Sibers.Api.Infrastructures.Validator
 {

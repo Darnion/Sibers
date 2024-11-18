@@ -1,6 +1,4 @@
-﻿using Sibers.Api.Models;
-using Sibers.Api.Models.Enums;
-using Sibers.Services.Contracts.Models;
+﻿using Sibers.Api.Models.Enums;
 
 namespace Sibers.Api.ModelsRequest.Employee
 {

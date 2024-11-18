@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Sibers.Api.Attribute;
 using Sibers.Api.Infrastructures.Validator;
 using Sibers.Api.Models;
 using Sibers.Api.ModelsRequest.Employee;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.ModelsRequest;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Sibers.Api.Controllers
 {
@@ -41,6 +41,17 @@ namespace Sibers.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await employeeService.GetAllAsync(cancellationToken);
+            return Ok(mapper.Map<IEnumerable<EmployeeResponse>>(result));
+        }
+
+        /// <summary>
+        /// Получить список всех работников, полное имя которых содержит строку
+        /// </summary>
+        [HttpGet("{name}")]
+        [ApiOk(typeof(IEnumerable<EmployeeResponse>))]
+        public async Task<IActionResult> GetAllByName(string name, CancellationToken cancellationToken)
+        {
+            var result = await employeeService.GetAllByNameAsync(name, cancellationToken);
             return Ok(mapper.Map<IEnumerable<EmployeeResponse>>(result));
         }
 

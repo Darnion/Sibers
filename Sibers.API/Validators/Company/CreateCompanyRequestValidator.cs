@@ -1,6 +1,6 @@
-﻿using Sibers.Api.ModelsRequest.Company;
+﻿using FluentValidation;
+using Sibers.Api.ModelsRequest.Company;
 using Sibers.Repositories.Contracts;
-using FluentValidation;
 
 namespace Sibers.Api.Validators.Company
 {

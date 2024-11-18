@@ -1,7 +1,4 @@
-﻿using Sibers.Api.Models.Enums;
-using Sibers.Context.Contracts.Models;
-
-namespace Sibers.Api.Models
+﻿namespace Sibers.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности проекта

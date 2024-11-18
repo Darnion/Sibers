@@ -1,5 +1,5 @@
-﻿using Sibers.Common.Entity.EntityInterface;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.EntityInterface;
 using System.Collections.ObjectModel;
 
 namespace Sibers.Common.Entity.Repositories

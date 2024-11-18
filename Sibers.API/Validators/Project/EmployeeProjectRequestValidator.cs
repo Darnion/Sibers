@@ -1,6 +1,6 @@
-﻿using Sibers.Repositories.Contracts;
-using FluentValidation;
+﻿using FluentValidation;
 using Sibers.Api.ModelsRequest.Project;
+using Sibers.Repositories.Contracts;
 
 namespace Sibers.Api.Validators.EmployeeProject
 {

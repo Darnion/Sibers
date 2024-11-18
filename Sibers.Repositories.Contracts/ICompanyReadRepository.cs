@@ -18,6 +18,11 @@ namespace Sibers.Repositories.Contracts
         Task<Company?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить <see cref="Company"/> по названию
+        /// </summary>
+        Task<Company?> GetByTitleAsync(string title, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить список <see cref="Company"/> по идентификаторам
         /// </summary>
         Task<Dictionary<Guid, Company>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);

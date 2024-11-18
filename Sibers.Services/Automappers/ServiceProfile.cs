@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.Extensions.EnumMapping;
 using Sibers.Context.Contracts.Enums;
 using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models.Enums;
 using Sibers.Services.Contracts.Models;
-using AutoMapper.Extensions.EnumMapping;
+using Sibers.Services.Contracts.Models.Enums;
 
 namespace Sibers.Services.Automappers
 {

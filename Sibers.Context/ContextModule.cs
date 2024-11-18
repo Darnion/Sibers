@@ -1,8 +1,8 @@
-﻿using Sibers.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Sibers.Common;
 using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Contracts;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Sibers.Context
 {

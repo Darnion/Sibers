@@ -1,6 +1,6 @@
-﻿using Sibers.Context.Contracts.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Context.Configuration
 {

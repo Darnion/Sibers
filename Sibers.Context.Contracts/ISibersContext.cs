@@ -1,5 +1,5 @@
-﻿using Sibers.Context.Contracts.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Context.Contracts
 {
