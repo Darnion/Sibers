@@ -1,6 +1,4 @@
-﻿using Sibers.Api.Models.Enums;
-
-namespace Sibers.Api.ModelsRequest.Company
+﻿namespace Sibers.Api.ModelsRequest.Company
 {
     /// <summary>
     /// Запрос изменения компании

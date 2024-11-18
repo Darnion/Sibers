@@ -1,6 +1,4 @@
 ﻿using Sibers.Context.Contracts.Enums;
-using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models;
 
 namespace Sibers.Services.Contracts.ModelsRequest
 {
@@ -37,6 +35,6 @@ namespace Sibers.Services.Contracts.ModelsRequest
         /// <summary>
         /// Проекты, на которых <see cref="EmployeeRequestModel"/> - сотрудник
         /// </summary>
-        public ICollection<Guid>? Projects { get; set; }
+        public ICollection<Guid> Projects { get; set; } = new HashSet<Guid>();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Sibers.Api.Models.Enums;
-using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Api.Models
 {
@@ -39,11 +38,11 @@ namespace Sibers.Api.Models
         /// <summary>
         /// Проекты, на которых <see cref="EmployeeResponse"/> - руководитель
         /// </summary>
-        public ICollection<ProjectResponse>? ProjectsIDirector { get; set; }
+        public ICollection<ProjectResponse> ProjectsIDirector { get; set; } = new HashSet<ProjectResponse>();
 
         /// <summary>
         /// Проекты, на которых <see cref="EmployeeResponse"/> - сотрудник
         /// </summary>
-        public ICollection<ProjectResponse>? Projects { get; set; }
+        public ICollection<ProjectResponse> Projects { get; set; } = new HashSet<ProjectResponse>();
     }
 }

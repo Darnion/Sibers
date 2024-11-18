@@ -16,6 +16,11 @@ namespace Sibers.Services.Contracts.Interfaces
         Task<CompanyModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить <see cref="CompanyModel"/> по названию
+        /// </summary>
+        Task<CompanyModel?> GetByTitleAsync(string title, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Добавить новую компанию
         /// </summary>
         Task<CompanyModel> AddAsync(CompanyRequestModel request, CancellationToken cancellationToken);

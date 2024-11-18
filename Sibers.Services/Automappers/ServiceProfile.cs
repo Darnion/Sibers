@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.Extensions.EnumMapping;
 using Sibers.Context.Contracts.Enums;
 using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models.Enums;
 using Sibers.Services.Contracts.Models;
-using AutoMapper.Extensions.EnumMapping;
+using Sibers.Services.Contracts.Models.Enums;
 
 namespace Sibers.Services.Automappers
 {
@@ -16,8 +16,7 @@ namespace Sibers.Services.Automappers
                 .ReverseMap();
 
             CreateMap<Employee, EmployeeModel>(MemberList.Destination)
-                //.ForMember(x => x.Projects, next => next.Ignore())
-                ;
+                .ForMember(x => x.Projects, next => next.Ignore());
 
             CreateMap<Company, CompanyModel>(MemberList.Destination);
 

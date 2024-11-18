@@ -1,8 +1,4 @@
-﻿using Sibers.Api.Models;
-using Sibers.Api.Models.Enums;
-using Sibers.Services.Contracts.Models;
-
-namespace Sibers.Api.ModelsRequest.Project
+﻿namespace Sibers.Api.ModelsRequest.Project
 {
     /// <summary>
     /// Запрос создания проекта

@@ -1,9 +1,8 @@
-﻿using Sibers.Common.Entity.InterfaceDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Common.Entity.Repositories;
-using Sibers.Context.Contracts.Enums;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore;
 
 namespace Sibers.Repositories.Implementations
 {
@@ -21,6 +20,20 @@ namespace Sibers.Repositories.Implementations
             => reader.Read<Employee>()
                 .NotDeletedAt()
                 .Include(x => x.Projects)
+                .ThenInclude(x => x.Project)
+                .OrderBy(x => x.EmployeeType)
+                .OrderBy(x => x.LastName)
+                .ToReadOnlyCollectionAsync(cancellationToken);
+
+        Task<IReadOnlyCollection<Employee>> IEmployeeReadRepository.GetAllByNameAsync(string name, CancellationToken cancellationToken)
+            => reader.Read<Employee>()
+                .NotDeletedAt()
+                .Where(x => (x.LastName + " " + x.FirstName + " " + x.Patronymic)
+                        .Trim()
+                        .ToLower()
+                        .Contains(name.ToLower()))
+                .Include(x => x.Projects)
+                .ThenInclude(x => x.Project)
                 .OrderBy(x => x.EmployeeType)
                 .OrderBy(x => x.LastName)
                 .ToReadOnlyCollectionAsync(cancellationToken);
@@ -44,5 +57,10 @@ namespace Sibers.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .AnyAsync(cancellationToken);
+
+        Task<bool> IEmployeeReadRepository.AnyOtherByEmailAsync(Guid id, string email, CancellationToken cancellationToken)
+            => reader.Read<Employee>()
+                .NotDeletedAt()
+                .AnyAsync(x => x.Id != id && x.Email == email, cancellationToken);
     }
 }

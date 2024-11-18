@@ -1,7 +1,4 @@
-﻿using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models.Enums;
-
-namespace Sibers.Services.Contracts.Models
+﻿namespace Sibers.Services.Contracts.Models
 {
     /// <summary>
     /// Модель "Проект"
@@ -31,7 +28,7 @@ namespace Sibers.Services.Contracts.Models
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>
         /// </summary>
-        public ICollection<EmployeeModel>? Workers { get; set; }
+        public ICollection<EmployeeModel> Workers { get; set; } = new HashSet<EmployeeModel>();
 
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>

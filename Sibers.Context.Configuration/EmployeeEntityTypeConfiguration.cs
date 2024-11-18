@@ -1,7 +1,6 @@
-﻿using Sibers.Context.Contracts.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Azure;
+using Sibers.Context.Contracts.Models;
 
 namespace Sibers.Context.Configuration
 {
@@ -12,17 +11,23 @@ namespace Sibers.Context.Configuration
             builder.ToTable("Employees");
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
-            builder.Property(x => x.LastName).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.Patronymic).HasMaxLength(50);
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
+            builder.Property(e => e.LastName).IsRequired().HasMaxLength(50);
+            builder.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
+            builder.Property(e => e.Patronymic).HasMaxLength(50);
+            builder.Property(e => e.Email).IsRequired().HasMaxLength(254);
 
             builder
-               .HasMany(x => x.ProjectDirector)
-               .WithOne(x => x.Director)
-               .HasForeignKey(x => x.DirectorId);
+               .HasMany(e => e.ProjectDirector)
+               .WithOne(p => p.Director)
+               .HasForeignKey(p => p.DirectorId);
 
-            builder.HasIndex(x => x.Email)
+            builder
+                .HasMany(e => e.Projects)
+                .WithOne(ep => ep.Worker)
+                .HasForeignKey(e => e.WorkerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasIndex(e => e.Email)
                 .IsUnique()
                 .HasFilter($"{nameof(Employee.DeletedAt)} is null")
                 .HasDatabaseName($"IX_{nameof(Employee)}_{nameof(Employee.Email)}");

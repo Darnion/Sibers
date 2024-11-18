@@ -14,7 +14,7 @@ namespace Sibers.Api.Infrastructures
         {
             service.AddTransient<IDateTimeProvider, DateTimeProvider>();
             service.AddTransient<IDbWriterContext, DbWriterContext>();
-            //service.AddTransient<IApiValidatorService, ApiValidatorService>();
+            service.AddTransient<IApiValidatorService, ApiValidatorService>();
             service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
 
             service.RegisterModule<ServiceModule>();

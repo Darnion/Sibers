@@ -11,6 +11,11 @@ namespace Sibers.Services.Contracts.Interfaces
         Task<IEnumerable<EmployeeModel>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Получить список всех <see cref="EmployeeModel"/>, полное имя которых содержит строку
+        /// </summary>
+        Task<IEnumerable<EmployeeModel>> GetAllByNameAsync(string name, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить <see cref="EmployeeModel"/> по идентификатору
         /// </summary>
         Task<EmployeeModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);

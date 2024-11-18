@@ -1,7 +1,7 @@
-﻿using Sibers.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sibers.Common;
 using Sibers.Services.Automappers;
 using Sibers.Shared;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Sibers.Services
 {

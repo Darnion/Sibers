@@ -1,8 +1,8 @@
-﻿using Sibers.Common.Entity.InterfaceDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Configuration;
 using Sibers.Context.Contracts;
 using Sibers.Context.Contracts.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Sibers.Context
 {

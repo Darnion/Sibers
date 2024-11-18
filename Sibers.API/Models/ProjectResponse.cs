@@ -1,7 +1,4 @@
-﻿using Sibers.Api.Models.Enums;
-using Sibers.Context.Contracts.Models;
-
-namespace Sibers.Api.Models
+﻿namespace Sibers.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности проекта
@@ -31,7 +28,7 @@ namespace Sibers.Api.Models
         /// <summary>
         /// Сотрудники <see cref="ProjectResponse"/>
         /// </summary>
-        public ICollection<EmployeeResponse>? Workers { get; set; }
+        public ICollection<EmployeeResponse> Workers { get; set; } = new HashSet<EmployeeResponse>();
 
         /// <summary>
         /// Руководитель <see cref="ProjectResponse"/>

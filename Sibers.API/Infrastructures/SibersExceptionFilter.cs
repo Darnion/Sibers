@@ -1,7 +1,7 @@
-﻿using Sibers.Api.Models.Exceptions;
-using Sibers.Services.Contracts.Exceptions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Sibers.Api.Models.Exceptions;
+using Sibers.Services.Contracts.Exceptions;
 
 namespace Sibers.Api.Infrastructures
 {

@@ -1,5 +1,5 @@
-﻿using Sibers.Api.Models.Exceptions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Sibers.Api.Models.Exceptions;
 
 namespace Sibers.Api.Attribute
 {

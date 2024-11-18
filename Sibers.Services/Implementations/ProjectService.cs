@@ -2,7 +2,6 @@
 using Sibers.Common.Entity.InterfaceDB;
 using Sibers.Context.Contracts.Models;
 using Sibers.Repositories.Contracts;
-using Sibers.Services;
 using Sibers.Services.Contracts.Exceptions;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.Models;
@@ -15,24 +14,24 @@ namespace Sibers.Services.Implementations
         private readonly IProjectReadRepository projectReadRepository;
         private readonly IProjectWriteRepository projectWriteRepository;
         private readonly ICompanyReadRepository companyReadRepository;
-        private readonly IEmployeeReadRepository employeeReadRepository;
-        private readonly IEmployeeWriteRepository employeeWriteRepository;
+        private readonly IEmployeeProjectReadRepository employeeProjectReadRepository;
+        private readonly IEmployeeProjectWriteRepository employeeProjectWriteRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public ProjectService(IProjectReadRepository projectReadRepository,
             IProjectWriteRepository projectWriteRepository,
             ICompanyReadRepository companyReadRepository,
-            IEmployeeReadRepository employeeReadRepository,
-            IEmployeeWriteRepository employeeWriteRepository,
+            IEmployeeProjectReadRepository employeeProjectReadRepository,
+            IEmployeeProjectWriteRepository employeeProjectWriteRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.projectReadRepository = projectReadRepository;
             this.projectWriteRepository = projectWriteRepository;
             this.companyReadRepository = companyReadRepository;
-            this.employeeReadRepository = employeeReadRepository;
-            this.employeeWriteRepository = employeeWriteRepository;
+            this.employeeProjectReadRepository = employeeProjectReadRepository;
+            this.employeeProjectWriteRepository = employeeProjectWriteRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -65,6 +64,8 @@ namespace Sibers.Services.Implementations
                 {
                     proj.Director = mapper.Map<EmployeeModel>(project.Director);
                 }
+
+                proj.Workers = mapper.Map<ICollection<EmployeeModel>>(project.Workers.Where(x => x.DeletedAt == null).Select(x => x.Worker));
 
                 result.Add(proj);
             }
@@ -101,6 +102,7 @@ namespace Sibers.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<ProjectModel>(item);
         }
+
         async Task<ProjectModel> IProjectService.EditAsync(ProjectRequestModel source, CancellationToken cancellationToken)
         {
             var targetProject = await projectReadRepository.GetByIdAsync(source.Id, cancellationToken);
@@ -117,35 +119,72 @@ namespace Sibers.Services.Implementations
             targetProject.EndDate = source.EndDate;
             targetProject.Priority = source.Priority;
 
-            
-            var projWorkersDict = await employeeReadRepository.GetByIdsAsync(source.Workers!, cancellationToken);
-            var projWorkers = projWorkersDict.Values;
-            foreach (var worker in targetProject.Workers!)
-            {
-                if (!projWorkers.Contains(worker))
-                {
-                    worker.Projects!.Remove(targetProject);
-                    employeeWriteRepository.Update(worker);
-                };
-            }
-            targetProject.Workers = projWorkers;
-            foreach(var worker in targetProject.Workers)
-            {
-                if (!worker.Projects!.Contains(targetProject))
-                {
-                    worker.Projects!.Add(targetProject);
-                    employeeWriteRepository.Update(worker);
-                }
-            }
-
             projectWriteRepository.Update(targetProject);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<ProjectModel>(targetProject);
         }
+
+        async Task IProjectService.LinkWorkersAsync(EmployeeProjectRequestModel source, CancellationToken cancellationToken)
+        {
+            var targetProject = await projectReadRepository.GetByIdAsync(source.ProjectId, cancellationToken);
+            if (targetProject == null)
+            {
+                throw new SibersEntityNotFoundException<Project>(source.ProjectId);
+            }
+
+            foreach (var workerId in source.WorkersIds)
+            {
+                if (targetProject.Workers.Where(x => x.DeletedAt == null).Any(tp => tp.WorkerId == workerId))
+                {
+                    continue;
+                }
+
+                var employeeProject = new EmployeeProject()
+                {
+                    WorkerId = workerId,
+                    ProjectId = source.ProjectId,
+                };
+                employeeProjectWriteRepository.Add(employeeProject);
+            }
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        async Task IProjectService.UnlinkWorkersAsync(EmployeeProjectRequestModel source, CancellationToken cancellationToken)
+        {
+            var targetProject = await projectReadRepository.GetByIdAsync(source.ProjectId, cancellationToken);
+            if (targetProject == null)
+            {
+                throw new SibersEntityNotFoundException<Project>(source.ProjectId);
+            }
+
+            var empProjs = await employeeProjectReadRepository.GetByProjectIdWorkersIdsAsync(source.ProjectId, source.WorkersIds, cancellationToken);
+            if (empProjs == null)
+            {
+                throw new SibersInvalidOperationException("Данной связи не существует");
+            }
+
+            foreach (var empProj in empProjs)
+            {
+                employeeProjectWriteRepository.Delete(empProj);
+            }
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
         async Task IProjectService.DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var targetProject = await projectReadRepository.GetByIdAsync(id, cancellationToken) ??
+            var targetProject = await projectReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetProject == null)
+            {
                 throw new SibersEntityNotFoundException<Project>(id);
+            }
+
+            var empProjs = await employeeProjectReadRepository.GetByProjectIdAsync(id, cancellationToken);
+            foreach (var empProj in empProjs)
+            {
+                employeeProjectWriteRepository.Delete(empProj);
+            }
 
             projectWriteRepository.Delete(targetProject);
             await unitOfWork.SaveChangesAsync(cancellationToken);

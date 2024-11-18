@@ -1,6 +1,4 @@
-﻿using Sibers.Context.Contracts.Enums;
-using Sibers.Context.Contracts.Models;
-using Sibers.Services.Contracts.Models;
+﻿using Sibers.Services.Contracts.Models;
 
 namespace Sibers.Services.Contracts.ModelsRequest
 {
@@ -29,7 +27,7 @@ namespace Sibers.Services.Contracts.ModelsRequest
         /// <summary>
         /// Сотрудники (many-to-many)
         /// </summary>
-        public ICollection<Guid>? Workers { get; set; }
+        public ICollection<Guid> Workers { get; set; } = new HashSet<Guid>();
 
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>

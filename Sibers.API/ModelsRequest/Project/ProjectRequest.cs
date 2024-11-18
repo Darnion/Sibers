@@ -1,7 +1,4 @@
-﻿using Sibers.Api.Models.Enums;
-using Sibers.Api.ModelsRequest.Employee;
-
-namespace Sibers.Api.ModelsRequest.Project
+﻿namespace Sibers.Api.ModelsRequest.Project
 {
     /// <summary>
     /// Запрос изменения проекта
@@ -12,10 +9,5 @@ namespace Sibers.Api.ModelsRequest.Project
         /// Идентификатор
         /// </summary>
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// Сотрудники <see cref="ProjectRequest"/>
-        /// </summary>
-        public ICollection<Guid>? Workers { get; set; }
     }
 }

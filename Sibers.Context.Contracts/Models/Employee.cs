@@ -1,6 +1,4 @@
 ﻿using Sibers.Context.Contracts.Enums;
-using Sibers.Context.Contracts.Models;
-using System;
 
 namespace Sibers.Context.Contracts.Models
 {
@@ -35,11 +33,11 @@ namespace Sibers.Context.Contracts.Models
         /// <summary>
         /// Сотрудники проекта (many-to-many)
         /// </summary>
-        public ICollection<Project>? Projects { get; set; }
+        public ICollection<EmployeeProject> Projects { get; set; } = new HashSet<EmployeeProject>();
 
         /// <summary>
         /// Руководитель (one-to-many)
         /// </summary>
-        public ICollection<Project>? ProjectDirector { get; set; }
+        public ICollection<Project> ProjectDirector { get; set; } = new HashSet<Project>();
     }
 }

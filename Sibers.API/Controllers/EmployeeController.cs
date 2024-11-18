@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Sibers.Api.Attribute;
 using Sibers.Api.Infrastructures.Validator;
 using Sibers.Api.Models;
 using Sibers.Api.ModelsRequest.Employee;
 using Sibers.Services.Contracts.Interfaces;
 using Sibers.Services.Contracts.ModelsRequest;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Sibers.Api.Controllers
 {
@@ -18,19 +18,19 @@ namespace Sibers.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
-        //private readonly IApiValidatorService validatorService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="EmployeeController"/>
         /// </summary>
         public EmployeeController(IEmployeeService employeeService,
-            IMapper mapper)
-            //IApiValidatorService validatorService)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.employeeService = employeeService;
             this.mapper = mapper;
-            //this.validatorService = validatorService;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -41,6 +41,17 @@ namespace Sibers.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await employeeService.GetAllAsync(cancellationToken);
+            return Ok(mapper.Map<IEnumerable<EmployeeResponse>>(result));
+        }
+
+        /// <summary>
+        /// Получить список всех работников, полное имя которых содержит строку
+        /// </summary>
+        [HttpGet("{name}")]
+        [ApiOk(typeof(IEnumerable<EmployeeResponse>))]
+        public async Task<IActionResult> GetAllByName(string name, CancellationToken cancellationToken)
+        {
+            var result = await employeeService.GetAllByNameAsync(name, cancellationToken);
             return Ok(mapper.Map<IEnumerable<EmployeeResponse>>(result));
         }
 
@@ -65,7 +76,7 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
             var result = await employeeService.AddAsync(employeeRequestModel, cancellationToken);
@@ -80,7 +91,7 @@ namespace Sibers.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
         {
-            //await validatorService.ValidateAsync(request, cancellationToken);
+            await validatorService.ValidateAsync(request, cancellationToken);
 
             var model = mapper.Map<EmployeeRequestModel>(request);
             var result = await employeeService.EditAsync(model, cancellationToken);
